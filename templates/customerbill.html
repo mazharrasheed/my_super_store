@@ -33,13 +33,27 @@
         <input type="text" name='proqty' required='true' > 
         <input type="submit" name='savecart' style="width:20% ;float:left;"  value="Add|Update Cart" > 
       </form>
+     
+    
+      
+      <a onclick="return confirm('Are you sure you want to clear cart?')" style= "width:10% ;float:left;margin-left:5%" name="reset" href="{% url 'clear_cart' %}">Clear Cart</a>
+      
       {%if instock%}
       {% for x in myproducts %}
       <p style="width:20% ;float:left;margin-left:5%" >InStock|[{{ x.product_quantity }}]</p>
       {% endfor %} 
+
       {% endif %}
-      <a onclick="return confirm('Are you sure you want to clear cart?')" style= "width:10% ;float:left;margin-left:5%" name="reset" href="{% url 'clear_cart' %}">Clear Cart</a>
+      {%if error1%}
+      <p style="width:40% ;float:left;margin-left:5% ;color:red" > Warning! Add Qty. Less Than Stock</p>
+      {% endif %}
+      {%if error2%}
+      <p style="width:45% ;float:left;margin-left:5% ;color:red" > Warning! Product allready in cart if update remove first.</p>
+      {% endif %}
+    
+    
     </div>
+
 
 
     <h3 style=" text-align:center; margin-left:25%;margin-top:1% ;background-color:rgb(163, 230, 76);
@@ -73,7 +87,7 @@
                 <td>{{ x.product_sale_price }} </td>
                 <td>{{ x.product_quantity }} </td>
                 <td>{{ x.total_price}} </td>
-                <td> <a onclick="return confirm('Are you sure you want to delete this?')" name="navlink"  href="{% url 'delete_cartitem' id=x.id %}">Delete</a></td>
+                <td> <a onclick="return confirm('Are you sure you want to delete this?')" name="navlink"  href="{% url 'delete_cartitem' id=x.id %}">Remove</a></td>
               </tr>
               {% endfor %}
           
