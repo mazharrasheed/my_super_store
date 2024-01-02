@@ -1,0 +1,96 @@
+{% extends "master1.html" %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+
+<div style="height:1200px" >
+
+  {% for x in myproducts %}
+  <h1 style="text-align:center;margin-left:25%;margin-top:1% ;background-color:rgb(163, 230, 76);
+  border: 1px solid rgb(19, 135, 230); width:50%;
+  border-radius: 5px;">Update Products {{x.productname}}</h1>
+  {% endfor %}
+
+  <div style="width:70% ; background-color:lightgray; margin-left:15% ; 
+  margin-top:1% ; height:100% ;border: 1px solid #ccc;
+  border-radius: 25px; " >
+  
+  <h3 style="text-align:left;margin-left:30px ;margin-top:1% ;" ><a href="/products/"> Back to Products</a> </h3>
+
+    <div class="container" style="width:85% ;;margin-left:5% ;margin-top:3%;">
+      <form method='post'>
+      {% csrf_token %}
+
+      <label for="category_name">Category:</label>
+      <select name="category_name" id="category_name" >
+      <option value="{{value1}}">{{value1}}</option>
+      {% for x in mycategory %}
+        <option value="{{ x.category_name }}">{{ x.category_name }}</option>
+        {% endfor %}
+      </select>
+  
+      {{form}}
+  
+      <input type="submit" style="width:25% ; margin-top:20px ;   border: 1px solid;
+      border-radius: 25px; margin-left:5% " value="Update Product">
+  
+      </form>
+    </div>
+  
+    {%if msg %}
+
+    <h4 style="text-align:left ; margin-top:10px; margin-left:25px ; color:red" > 
+        Sucess: </h4>
+    
+    <h5 style="text-align:left ; margin-left:25px " > 
+        Product Update Sucessfully </h5>
+    
+    {% endif %}
+
+    {%if error1 %}
+
+    <h4 style="text-align:left ; margin-top:10px; margin-left:25px ; color:red" > 
+        Warning! </h4>
+    
+    <h5 style="text-align:left ; margin-left:25px " > 
+        Select Category </h5>
+
+    {% endif %}
+    {%if error %}
+
+    <h4 style="text-align:left ; margin-top:10px; margin-left:25px ; color:red" > 
+        Warning! </h4>
+    <h5 style="text-align:left ; margin-left:25px " > 
+        Enter Correct Productname </h5>
+    {% endif %}
+    <table>
+      <thead>
+        <tr >
+          <td style="width:5% ;background-color: aquamarine;"> P.ID </td>
+          <td style="width:5%;background-color: aquamarine;"> Count </td>
+          <td style="background-color: aquamarine;"> Product Name </td>
+          <td style="background-color: aquamarine;"> Perchase_price </td>
+          <td style="background-color: aquamarine;"> Sale_price </td>
+          <td style="background-color: aquamarine;"> Category </td>
+        </tr>
+      </thead>
+
+        {% for x in myproducts %}
+        <tr style="text-align:center" >
+          <td> {{ x.id }}</a> </td>
+          <td> {{ forloop.counter }} </td>
+          <td> {{ x.productname }} </td>
+          <td>{{ x.product_perchase_price }} </td>
+          <td> {{ x.product_sale_price }} </td>
+          <td> {{value1 }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+

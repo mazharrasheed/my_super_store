@@ -1,0 +1,20 @@
+{% extends "master.html" %}
+
+{% block content %}
+<h3>Django Form</h3>
+
+<div class="container">
+
+    <form method='post'>
+    {% csrf_token %}
+
+    {{form}}
+
+    <label for="output">Output</label>
+    <input id='output' type="text" value="{{context.var1}} {{context.var2}}">
+    <input type="submit" value="Submit">
+
+    </form>
+  
+</div>
+{% endblock content %}

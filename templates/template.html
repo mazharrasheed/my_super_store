@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+{% for x in fruits %}
+
+  <h1>{{ x }}</h1>
+  
+{% endfor %}
+
+<p>In views.py you can see what the fruits variable looks like.</p>
+
+{% for x in fruits reversed %}
+
+  <h1>{{ x }}</h1>
+  
+{% endfor %}
+
+<p>In views.py you can see what the fruits variable looks like.</p>
+
+
+<ul>
+  {% for x in emptytestobject %}
+    <li>{{ x.firstname }}</li>
+  {% empty %}
+    <li>No members</li>
+  {% endfor %}
+</ul> 
+
+<p>Loop Variables
+  Django has some variables that are available for you inside a loop:
+  
+  forloop.counter <br>
+  forloop.counter0<br>
+  forloop.first<br>
+  forloop.last<br>
+  forloop.parentloop<br>
+  forloop.revcounter<br>
+  forloop.revcounter0</p>
+
+  <ul>
+    {% for x in fruits %}
+      <li>{{ forloop.counter }}</li>
+    {% endfor %}
+  </ul>
+
+  <ul>
+    {% for x in fruits %}
+      <li>{{ forloop.counter0 }}</li>
+    {% endfor %}
+  </ul>
+
+
+  <ul>
+    {% for x in fruits %}
+      <li
+        {% if forloop.first %}
+          style='background-color:lightblue;'
+        {% endif %}
+      >{{ x }}</li>
+    {% endfor %}
+  </ul> 
+
+
+  <ul>
+    {% for x in fruits %}
+      <li
+        {% if forloop.last %}
+          style='background-color:lightblue;'
+        {% endif %}
+      >{{ x }}</li>
+    {% endfor %}
+  </ul> 
+
+  <ul>
+    {% for x in fruits %}
+      <li>{{ forloop.revcounter }}</li>
+    {% endfor %}
+  </ul> 
+
+  <ul>
+    {% for x in fruits %}
+      <li>{{ forloop.revcounter0 }}</li>
+    {% endfor %}
+  </ul> 
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="/static/main.css?v=25" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="navbar"  style="text-align:center;">
+        
+          <a class='sune' {% if request.path == "/" %}class="active"{% endif %} href="/main"> My Supper Store </a>
+          <a {% if request.path == "/users/" %}class="active"{% endif %}href="/users">Users</a>
+          <a {% if request.path == "/category/" %}class="active"{% endif %}href="/category">Category</a>
+          <a {% if request.path == "/products/" %}class="active"{% endif %} href="/products">Products</a>
+          <a {% if request.path == "/suppliers/" %} class="active"{% endif %} href="/suppliers">Suppliers</a>
+          <a {% if request.path == "/sales/" %} class="active"{% endif %} href="/sales">Sales</a>
+          <a {% if request.path == "/customerbill/" %} class="active"{% endif %} href="/customerbill">Customer Bill</a>
+          <a  href="/register">Register</a>
+          <a  href="/login" >LOGIN</a>
+  
+    </div>
+
+    <div style="height:700px;">
+
+    {% block content %}
+
+    {% endblock %}
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+{% extends "master1.html" %}
+
+
+{% block title %}
+  My Super Store
+{% endblock %}
+
+{% block content %}
+
+<div style="height:1200px" >
+
+  <h1 style="text-align:center;margin-left:40%;margin-top:1% ;background-color:rgb(163, 230, 76);
+  border: 1px solid rgb(19, 135, 230); width:20%;
+  border-radius: 5px;">Suppliers</h1>
+
+  <div style="width:70% ; background-color:lightgray; margin-left:15% ; 
+  margin-top:1% ; height:100% ;border: 1px solid #ccc;
+  border-radius: 25px; " >
+
+  {% for x in mysuppliers %}
+  <h1 style="text-align:center;margin-left:25%;margin-top:1% ;background-color:rgb(163, 230, 76);
+  border: 1px solid rgb(19, 135, 230); width:50%;
+  border-radius: 5px;">Supplier {{x.firstname}} {{x.lastname}}</h1>
+  {% endfor %}
+ 
+  <div class="container" style="width:85% ;;margin-left:5% ;margin-top:3%;">
+  
+      <form method='post'>
+      {% csrf_token %}
+      
+      {{form}}
+  
+      <input type="submit" name='savesupplier' style="" value="Update Supplier"> 
+      </form>
+
+
+  </div>
+  
+  {%if msg %}
+
+  <h4 style="text-align:left ; margin-top:10px; margin-left:25px ; color:red" > 
+      Sucess: </h4>
+  
+  <h5 style="text-align:left ; margin-left:25px " > 
+    Supplier Updated Sucessfully </h5>
+  
+  {% endif %}
+     
+  {%if error %}
+
+  <h4 style="text-align:left ; margin-top:10px; margin-left:25px ; color:red" > 
+      Warning! </h4>
+  
+  <h5 style="text-align:left ; margin-left:25px " > 
+    Suppliers allready exist try another </h5>
+  
+  {% endif %}
+    
+    <table>
+      <thead>
+        <tr >
+          <td style="width:5% ;background-color: aquamarine;"> P.ID </td>
+          <td style="width:5%;background-color: aquamarine;"> Count </td>
+          <td style="background-color: aquamarine;"> Product Name </td>
+          <td style="background-color: aquamarine;"> Perchase_price </td>
+          <td style="background-color: aquamarine;"> Sale_price </td>
+          <td style="background-color: aquamarine;"> Category </td>
+          <td style="background-color: aquamarine;"> Description </td>
+        </tr>
+      </thead>
+
+        {% for x in mysuppliers %}
+        <tr style="text-align:center ; margin-top:25px ;" >
+          <td> {{ x.id }}</a> </td>
+          <td> {{ forloop.counter }}</a> </td>
+          <td> {{ x.firstname }}</a> </td>
+          <td> {{ x.lastname }}</a> </td>
+          <td> {{ x.contact }}</a>  </td>
+          <td> {{ x.adress }}</a> </td>
+          <td> {{ x.description }}</a> </td>
+        </tr>
+        {% endfor %}
+     
+    </table>
+
+  </div>
+
+</div>
+
+{% endblock %}
+

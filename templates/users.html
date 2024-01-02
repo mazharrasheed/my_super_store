@@ -1,0 +1,31 @@
+{% extends "master1.html" %}
+
+{% block title %}
+  My Super Store - List of all Users
+{% endblock %}
+
+{% block content %}
+
+{%if details %}
+
+<div style="padding-left:20px;margin-left:5%">
+  <h1 >User Details </h1>
+    {% for x in myusers %}
+      <h1>Name: {{ x.username|title }}</h1>
+    {% endfor %}
+  </div>
+{%else%}
+
+<div style="padding-left:20px;margin-left:5%">
+<h1 >All Users </h1>
+
+{% for x in myusers %}
+  <li> <a href="/userdetails/{{ x.id }}" style='text-decoration:none;font-size: 40px;'> {{ forloop.counter }}: {{ x.username|title }} 
+    <a onclick="return confirm('Are you sure you want to delete this?')" name="navlink" href={%url 'delete_user' id=x.id %}> Delete </a> 
+  </a></li>
+{% endfor %}
+
+{% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "master1.html" %}
+
+
+{% block title %}
+  My Super Store
+{% endblock %}
+
+{% block content %}
+
+<div style="height:1200px" >
+
+  <h1 style="text-align:center;margin-left:40%;margin-top:1% ;background-color:rgb(163, 230, 76);
+  border: 1px solid rgb(19, 135, 230); width:20%;
+  border-radius: 5px;">All Sales</h1>
+
+  <div style="width:70% ; background-color:lightgray; margin-left:15% ; 
+  margin-top:1% ; height:100% ;border: 1px solid #ccc;
+  border-radius: 25px; " >
+
+  {% for x in mysales %}
+  <h1 style="text-align:center;margin-left:25%;margin-top:1% ;background-color:rgb(163, 230, 76);
+  border: 1px solid rgb(19, 135, 230); width:50%;
+  border-radius: 5px;">Sales {{x.firstname}} {{x.lastname}}</h1>
+  {% endfor %}
+  
+  <h3 style="text-align:left;margin-left:5% ;margin-top:1% ;" >All Sales</h3>
+  
+  <div class="container" style="width:85% ;;margin-left:5% ;margin-top:3%;">
+  
+      <form method='post'>
+      {% csrf_token %}
+
+ 
+      {{form}}
+  
+      <input type="submit" name='savesupplier' {% if update_mode %}value="Update Supplier" {% else %} value="Save supplier"{% endif %}> 
+      </form>
+      <a name="reset"  href="/suppliers/"> {% if update_mode  %}Back to Suppliers {% else %}Reset{% endif %}</a> 
+
+  </div>
+  
+  {%if msg %}
+
+  <h4 style="text-align:left ; margin-top:10px; margin-left:25px ; color:red" > 
+      Sucess: </h4>
+  
+  <h5 style="text-align:left ; margin-left:25px " > 
+    Supplier {%if update_mode%} Updated{% else %} Added  {% endif %} Sucessfully </h5>
+  
+  {% endif %}
+     
+  {%if error %}
+
+  <h4 style="text-align:left ; margin-top:10px; margin-left:25px ; color:red" > 
+      Warning! </h4>
+  
+  <h5 style="text-align:left ; margin-left:25px " > 
+    Suppliers allready exist try another </h5>
+  
+  {% endif %}
+    
+    <table>
+      <thead>
+        <tr >
+          <td style="width:5% ;background-color: aquamarine;"> S.ID </td>
+          <td style="width:5%;background-color: aquamarine;"> Count </td>
+          <td style="background-color: aquamarine;"> Customer Name </td>
+          <td style="background-color: aquamarine;"> Bill Id </td>
+          <td style="background-color: aquamarine;"> Sale_price </td>
+          <td style="background-color: aquamarine;"> Category </td>
+          <td style="background-color: aquamarine;"> Description </td>
+          <td style="background-color: aquamarine;"> Delete </td>
+        </tr>
+      </thead>
+        {% for x in mysuppliers %}
+        <tr style="text-align:center ; margin-top:25px ;" >
+          <td style="width:5%"> <a href={%url 'show_suppliers' id=x.id %}>{{ x.id }}</a> </td>
+          <td style="width:5%"><a href={%url 'show_suppliers' id=x.id %}>{{ forloop.counter }}</a> </td>
+          <td> <a href={%url 'show_suppliers' id=x.id %}>{{ x.firstname }}</a> </td>
+          <td><a href={%url 'show_suppliers' id=x.id %}>{{ x.lastname }}</a> </td>
+          <td><a href={%url 'show_suppliers' id=x.id %}>{{ x.contact }}</a>  </td>
+          <td> <a href={%url 'show_suppliers' id=x.id %}>{{ x.adress }}</a> </td>
+          <td> <a href={%url 'show_suppliers' id=x.id %}>{{ x.description }}</a> </td>
+          <td> <a  onclick="return confirm('Are you sure you want to delete this?')" name="navlink" style=" " href={%url 'delete_supplier' id=x.id %}>Delete </td>
+        </tr>
+        {% endfor %}  
+    </table>
+  </div>
+</div>
+{% endblock %}
+
