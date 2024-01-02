@@ -433,7 +433,9 @@ def show_product_customerbill(request,id):
     return render(request,'customerbill.html',data)
   
 def add_update_cart(request):
-  
+
+  error1=False
+  error2=False
   try:
     if request.method == 'POST':
       cust_form=Customer_detail_form()
@@ -441,7 +443,6 @@ def add_update_cart(request):
       productname=request.POST.get('all_products')
       product_quantity =request.POST.get('proqty') 
       cartitem=Products.objects.filter(productname=productname, is_deleted=False, product_status='active')  
-
       for x in cartitem:
         pid=x.id
         productname=x.productname
@@ -452,18 +453,25 @@ def add_update_cart(request):
         if product_quantity >int( x.product_quantity):
            error1=True
         else:
-          total_price=float(product_quantity*product_sale_price)
-         
-      citem=Cart(pid=pid,productname=productname,product_sale_price=product_sale_price,product_quantity=product_quantity,total_price=total_price,is_deleted=is_deleted,in_stock=in_stock)
-      citem.save()
+          total_price=float(product_quantity*product_sale_price)   
+      citem=Cart(pid=pid,productname=productname,product_sale_price=product_sale_price,
+      product_quantity=product_quantity,total_price=total_price,is_deleted=is_deleted,in_stock=in_stock)
 
+      present=False
+      cartlist=Cart.objects.filter(productname=productname)
+      for item in cartlist:
+         if productname==item.productname:
+            present=True
+            break
+      if present==True:
+            error2=True
+      else:
+          citem.save()
     else:
       search_form=Search_product_form() 
-      cust_form=Customer_detail_form()
-            
+      cust_form=Customer_detail_form()        
   except:
-     pass
-    
+     pass 
   myproducts = Products.objects.filter(is_deleted=False,product_status="active").values()
   cartitems=Cart.objects.filter(is_deleted=False).values()  
 
@@ -475,7 +483,7 @@ def add_update_cart(request):
     bill_amnt=bill_amnt+float(item['total_price'])
     discount=(bill_amnt*5)/100
     net_pay=bill_amnt-((bill_amnt*5)/100)
-  data={'search_form':search_form ,'cartitems':cartitems ,'myproducts':myproducts,'cust_form':cust_form,'bill_amnt':bill_amnt,'discount':discount,'net_pay': net_pay}
+  data={'search_form':search_form ,'cartitems':cartitems ,'myproducts':myproducts,'cust_form':cust_form,'bill_amnt':bill_amnt,'discount':discount,'net_pay': net_pay,'error1':error1,'error2':error2}
   return render(request,'customerbill.html',data)
 
 def delete_cartitem(request,id):
