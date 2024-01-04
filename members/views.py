@@ -9,8 +9,15 @@ import tempfile
 # Create your views here.
 
 def main(request):
+
+    mycategory = Category.objects.filter(is_deleted=False).values()
+    myproducts = Products.objects.filter(is_deleted=False).values()
+    mysuppliers = Suppliers.objects.filter(is_deleted=False).values()
+    mysales = Sales.objects.all().values()
+    myusers = Users.objects.filter(is_deleted=False).values()
+    data={'mycategory':mycategory,'myproducts':myproducts,'mysuppliers':mysuppliers,'myusers':myusers,'mysales':mysales}
     template=loader.get_template('main.html') # this will not work when we use POST method
-    return HttpResponse(template.render())    # this will not work when we use POST method
+    return HttpResponse(template.render(data))    # this will not work when we use POST method
 
 def users(request):
     myusers = Users.objects.filter(is_deleted=False).values()
@@ -355,10 +362,12 @@ def delete_supplier(request,id):
   return HttpResponseRedirect(url)
 
 def sales(request):
+
+  mysales = Sales.objects.all().values()
    
-   data={}
+  data={'mysales':mysales}
    
-   return render(request,'sales.html',data)
+  return render(request,'sales.html',data)
    
 
 def customer_bill(request):
@@ -429,7 +438,7 @@ def add_update_cart(request):
       search_form=Search_product_form()
       productname=request.POST.get('all_products')
       product_quantity =request.POST.get('proqty') 
-      print('dfdfd',productname)
+
       cartitem=Products.objects.filter(productname=productname, is_deleted=False, product_status='active')  
       for x in cartitem:
         pid=x.id

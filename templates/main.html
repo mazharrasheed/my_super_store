@@ -4,20 +4,24 @@
   My Super Store
 {% endblock %}
 
-
-
 {% block content %}
+
+{% for x in mycategory   %} {% endfor %}
+{% for x in myproducts   %} {% endfor %}
+{% for x in  myusers   %} {% endfor %}
+{% for x in mysuppliers  %} {% endfor %}
+{% for x in mysales %} {% endfor %}
 
 <div style='text-align:center'>
   <h1 st>My Super Store</h1>
 </div>
 
 <div style='width:100%; margin-left:10% '>
-  <span class="b"> <h1>All Employees</h1></span> 
-  <span class="b"> <h1>All Category </h1></span> 
-  <span class="b"> <h1>All Products </h1></span> 
-  <span class="b"> <h1>All Suppliers </h1></span> 
-  <span class="b"> <h1> All Sales </h1></span> 
+  <span class="b"> <h1>All Employees <br> [{{ myusers|length}}]</h1></span> 
+  <span class="b"> <h1>All Category <br> [{{mycategory|length}}] </h1></span>
+  <span class="b"> <h1>All Products <br>[{{myproducts|length}}] </h1></span> 
+  <span class="b"> <h1>All Suppliers <br> [{{mysuppliers|length}}]</h1></span> 
+  <span class="b"> <h1> All Sales <br>[{{mysales|length}}] </h1></span> 
 </div>
 
 {% endblock %}
