@@ -17,32 +17,48 @@
     border: 1px solid rgb(19, 135, 230); width:80%;
     border-radius: 5px;">All Products</h1>
     
-    <div class="container" style="width:94% ;;margin-left:1% ;margin-top:0%;padding-top:1%;height:30%">
+    <div class="container" style="width:94% ;;margin-left:1% ;margin-top:0%;padding-top:1%;height:50%">
         <form method='post' action="{% url 'addupdatecart'%}">
         {% csrf_token %}
 
         <label for="all_products">All Produts:</label>
-        <select name="all_products" id="all_products" required='True'>
+        {% comment %} <select name="all_products" id="all_products" required='True'>
         <option value="">Select</option>
         {% for x in myproducts %}
-          
           <option value="{{ x.productname }}"> {{ x.productname }} </option>
         {% endfor %}
+        </select> {% endcomment %}
+
+        <select name="all_products" onchange="javascript:handleSelect(this)"> 
+          {% if show_mode %} 
+          <option  value="{{ value2 }}"> {{value2 }} </option>
+          {% for x in  myproducts %}
+          <option  value="{{x.id}}"> {{ x.productname }} </option>
+          {% endfor %}
+          
+          {% else %}
+          <option value="">Select</option>
+          {% for x in myproducts %}
+          <option value="{{x.id}}"> {{ x.productname }} </option>
+          {% endfor %}
+          {% endif %}
         </select>
+          <script type="text/javascript">
+            function handleSelect(elm)
+            {
+              window.location = "/show_product_customerbill/"+elm.value;
+            }
+          </script>
+
         <label for="proqty">Qty:</label>
         <input type="text" name='proqty' required='true' > 
         <input type="submit" name='savecart' style="width:20% ;float:left;"  value="Add|Update Cart" > 
       </form>
-     
-    
-      
+        
       <a onclick="return confirm('Are you sure you want to clear cart?')" style= "width:10% ;float:left;margin-left:5%" name="reset" href="{% url 'clear_cart' %}">Clear Cart</a>
       
-      {%if instock%}
-      {% for x in myproducts %}
-      <p style="width:20% ;float:left;margin-left:5%" >InStock|[{{ x.product_quantity }}]</p>
-      {% endfor %} 
-
+      {%if show_mode%}
+      <div  style="width:20% ;;margin-left:1% ;padding-top:2%;margin-top:0%;float:left;height:8%;background-color:skyblue;text-align:center;color:black">InStock [{{ value5 }}] Nos.</div>
       {% endif %}
       {%if error1%}
       <p style="width:40% ;float:left;margin-left:5% ;color:red" > Warning! Add Qty. Less Than Stock</p>

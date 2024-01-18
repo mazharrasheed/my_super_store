@@ -9,8 +9,15 @@ import tempfile
 # Create your views here.
 
 def main(request):
+
+    mycategory = Category.objects.filter(is_deleted=False).values()
+    myproducts = Products.objects.filter(is_deleted=False).values()
+    mysuppliers = Suppliers.objects.filter(is_deleted=False).values()
+    mysales = Sales.objects.all().values()
+    myusers = Users.objects.filter(is_deleted=False).values()
+    data={'mycategory':mycategory,'myproducts':myproducts,'mysuppliers':mysuppliers,'myusers':myusers,'mysales':mysales}
     template=loader.get_template('main.html') # this will not work when we use POST method
-    return HttpResponse(template.render())    # this will not work when we use POST method
+    return HttpResponse(template.render(data))    # this will not work when we use POST method
 
 def users(request):
     myusers = Users.objects.filter(is_deleted=False).values()
@@ -355,10 +362,12 @@ def delete_supplier(request,id):
   return HttpResponseRedirect(url)
 
 def sales(request):
+
+  mysales = Sales.objects.all().values()
    
-   data={}
+  data={'mysales':mysales}
    
-   return render(request,'sales.html',data)
+  return render(request,'sales.html',data)
    
 
 def customer_bill(request):
@@ -386,27 +395,22 @@ def customer_bill(request):
     clear_cart(request)
     mycategory = Category.objects.filter(is_deleted=False).values()
     myproducts = Products.objects.filter(is_deleted=False,product_status="active").values()
-    data={'form':form,'search_form':search_form ,'cust_form':cust_form,'error':error,'error1':error1,'myproducts':myproducts,'mycategory':mycategory,'msg':msg }
+    cartitems=Cart.objects.filter(is_deleted=False).values()  
+    data={'form':form,'search_form':search_form ,'cartitems':cartitems,'cust_form':cust_form,'error':error,'error1':error1,'myproducts':myproducts,'mycategory':mycategory,'msg':msg }
     return render(request,'customerbill.html',data)
    
 def show_product_customerbill(request,id):
     error1=False
     error=False
     msg=False
+    id=int(id)
     # myproduc = Products.objects.get(id=id)
     try:
         if request.method == 'POST':
             cust_form=Customer_detail_form()
             form =Cust_bill_Products_form(request.POST) # Return form to html and also input data to form.
             search_form=Search_product_form()
-                     
-            category_name=str(request.POST.get('category_name')).capitalize()
-            productname=str(request.POST.get('productname')).capitalize()
-            product_perchase_price=str(request.POST.get('product_perchase_price')).capitalize()
-            product_sale_price=str(request.POST.get('product_sale_price')).capitalize()
-            product_quantity=(request.POST.get('product_quantity'))
-            product_status=(request.POST.get('status'))
-                        
+                         
         else:
             form = Cust_bill_Products_form()
             search_form=Search_product_form()
@@ -416,20 +420,12 @@ def show_product_customerbill(request,id):
     mycategory = Category.objects.filter(is_deleted=False).values()
     mydata1 = Products.objects.filter(is_deleted=False,product_status="active").values()
     mydata = Products.objects.filter(id=id, is_deleted=False).values()
+    cartitems=Cart.objects.filter(is_deleted=False).values()  
     for x in mydata:
-      value1=x['category']
       value2=x['productname']
-      value3=x['product_perchase_price']
-      value4=x['product_sale_price']
       value5=x['product_quantity']
-      value6=x['product_status']
 
-    form.fields['productname'].widget.attrs['value'] = value2
-    # form.fields['product_perchase_price'].widget.attrs['value'] = value3
-    form.fields['product_sale_price'].widget.attrs['value'] = value4
-    form.fields['product_quantity'].widget.attrs['value'] = value5
-
-    data={'form':form ,'search_form':search_form ,'cust_form':cust_form,'myproducts':mydata1,'error':error,'msg':msg,'error1':error1,'mycategory':mycategory,'value1':value1,'value6':value6, 'update_mode': True }
+    data={'form':form ,'search_form':search_form ,'cartitems':cartitems,'cust_form':cust_form,'myproducts':mydata1,'error':error,'msg':msg,'error1':error1,'mycategory':mycategory,'value2':value2,'value5':value5, 'show_mode': True }
     return render(request,'customerbill.html',data)
   
 def add_update_cart(request):
@@ -442,6 +438,7 @@ def add_update_cart(request):
       search_form=Search_product_form()
       productname=request.POST.get('all_products')
       product_quantity =request.POST.get('proqty') 
+
       cartitem=Products.objects.filter(productname=productname, is_deleted=False, product_status='active')  
       for x in cartitem:
         pid=x.id
