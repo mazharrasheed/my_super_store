@@ -182,7 +182,6 @@ def show(request,id):
     except:
             pass
     mycategory = Category.objects.filter(is_deleted=False).values()
-    mydata1 = Products.objects.filter(is_deleted=False).values()
     mydata = Products.objects.filter(id=id, is_deleted=False).values()
     for x in mydata:
       value1=x['category']
@@ -197,7 +196,23 @@ def show(request,id):
     form.fields['product_sale_price'].widget.attrs['value'] = value4
     form.fields['product_quantity'].widget.attrs['value'] = value5
 
-    data={'form':form ,'myproducts':mydata1,'error':error,'msg':msg,'error1':error1,'mycategory':mycategory,'value1':value1,'value6':value6, 'update_mode': True }
+    data={'form':form ,'myproducts':mydata,'error':error,'msg':msg,'error1':error1,'mycategory':mycategory,'value1':value1,'value6':value6, 'update_mode': True }
+    return render(request,'products.html',data)
+
+def search_product(request):
+    s_error=False
+    search_p=""
+    try:
+        if request.method == 'POST':
+          search_name=str((request.POST.get('search'))).capitalize()
+          if search_name=="":
+             s_error=True
+          else:
+              search_p = Products.objects.filter(productname__icontains=search_name, is_deleted=False).values()     
+    except:
+       pass
+    form =Products_form() # Return form to html.
+    data={'myproducts':search_p,'s_error':s_error, 'search_mode':True}
     return render(request,'products.html',data)
 
 def delete_pro(request,id):

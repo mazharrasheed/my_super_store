@@ -19,6 +19,36 @@
   
   <h3 style="text-align:left;margin-left:5% ;margin-top:1% ;" > Products </h3>
   
+  {% if update_mode %}
+  {% else %} 
+  <div class="container1" style="width:89% ;height:14%;margin-left:5% ;margin-top:1%">
+    <div style="width:90% ;;margin-left:5% ;margin-top:1%;">
+
+    <form method='post' action="{% url 'search_product'%}">
+      {% csrf_token %}
+
+    {% if search_mode  %}
+    
+     <h2 style="padding-top:5%;"><a href="/products/">Back to Products</a></h2>
+  
+    {% else %}
+      <h3 style="padding-top:1%;"> Enter Product Name</h3>
+      <input name="search" style="float:left" type='text' required=True></input>
+      <input type='submit' value="Search">  </input>
+    {% endif %}
+    </form>
+
+
+
+  </div>
+  
+  </div>
+  {% endif %}
+
+
+  {% if search_mode %}
+
+  {% else %}
   <div class="container" style="width:85% ;;margin-left:5% ;margin-top:3%;">
   
       <form method='post'>
@@ -56,6 +86,8 @@
       <a name="reset"  href="/products/">{% if update_mode  %}Back to Products {% else %}Reset{% endif %}</a> 
 
   </div>
+
+  {% endif %}
   
   {%if msg %}
 
@@ -86,6 +118,9 @@
       Product allready exist try another </h5>
   
   {% endif %}
+
+  
+
   
   <div class="container1" style="width:90% ;height:30%;margin-left:5% ;margin-top:1%;overflow-x: hidden">
 
