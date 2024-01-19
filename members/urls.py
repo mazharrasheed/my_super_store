@@ -12,7 +12,7 @@ urlpatterns = [
     path("main/",views.main, name='login'),
     path("users/",views.users,name="users"),
     path('useraccount/', views.useraccount, name='useraccount'),  
-    path("userdetails/<int:id>",views.user,name="users"),
+    path("userdetails/<slug>",views.user,name="users"),
     path("delete_user/<int:id>",views.delete_user,name="delete_user"),
     path("category/",views.category,name="category"),
     path("delete_category/<int:id>",views.delete_category,name="delete_category"),
@@ -32,6 +32,7 @@ urlpatterns = [
     path('clear_cart/', views.clear_cart, name='clear_cart'), 
     path('generate_bill/', views.generate_bill, name='generate_bill'), 
     path('print_bill/', views.print_bill, name='print_bill'), 
+    path('jasondata/', views.jasondata, name='jasondata'), 
     
 
 

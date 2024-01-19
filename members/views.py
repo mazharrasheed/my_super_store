@@ -6,6 +6,8 @@ from .forms import Userform ,RegisterUser,LoginUser,Products_form,Category_form,
 import time
 import os
 import tempfile
+from django.http import JsonResponse
+from django.core.paginator import Paginator
 # Create your views here.
 
 def main(request):
@@ -21,13 +23,17 @@ def main(request):
 
 def users(request):
     myusers = Users.objects.filter(is_deleted=False).values()
+    paginator=Paginator(myusers,1)
+    page_num=request.GET.get("page")
+    myusersfinal=paginator.get_page(page_num)
+    totalpages=myusersfinal.paginator.num_pages
     template=loader.get_template('users.html')
-    context= {'myusers':myusers,}
+    context= {'myusers':myusersfinal,"lastpage":totalpages,"pagelist":[n+1 for n in range(totalpages)]}
     return HttpResponse(template.render(context))
 
-def user(request,id):
+def user(request,slug):
     details=True
-    myusers = Users.objects.filter(id=id)
+    myusers = Users.objects.filter(user_slug=slug)
     template=loader.get_template('users.html')
     context= {'myusers':myusers,'details':details}
     return HttpResponse(template.render(context))
@@ -183,6 +189,7 @@ def show(request,id):
             pass
     mycategory = Category.objects.filter(is_deleted=False).values()
     mydata = Products.objects.filter(id=id, is_deleted=False).values()
+    print(mydata)
     for x in mydata:
       value1=x['category']
       value2=x['productname']
@@ -605,3 +612,13 @@ def print_bill(request):
   os.startfile(new_file,'print')
   url="/customerbill"
   return HttpResponseRedirect(url)
+
+def jasondata(request):
+   
+   data={
+      
+      'fname':'mazhar',
+      'lname':'Rasheed',
+   }
+
+   return JsonResponse(data)

@@ -1,56 +1,50 @@
 {% extends "master1.html" %}
 
-
 {% block title %}
   My Super Store
 {% endblock %}
-
 {% block content %}
 
-<div style="height:1200px" >
+<div style="height:1300px" >
 
   <h1 style="text-align:center;margin-left:40%;margin-top:1% ;background-color:rgb(163, 230, 76);
   border: 1px solid rgb(19, 135, 230); width:20%;
   border-radius: 5px;">Products</h1>
 
   <div style="width:70% ; background-color:lightgray; margin-left:15% ; 
-  margin-top:1% ; height:100% ;border: 1px solid #ccc;
-  border-radius: 25px; " >
+    margin-top:1% ; height:100% ;border: 1px solid #ccc;
+    border-radius: 25px; " >
   
-  <h3 style="text-align:left;margin-left:5% ;margin-top:1% ;" > Products </h3>
+    <h3 style="text-align:left;margin-left:5% ;margin-top:1% ;" > Products </h3>
   
-  {% if update_mode %}
-  {% else %} 
-  <div class="container1" style="width:89% ;height:14%;margin-left:5% ;margin-top:1%">
-    <div style="width:90% ;;margin-left:5% ;margin-top:1%;">
-
-    <form method='post' action="{% url 'search_product'%}">
-      {% csrf_token %}
-
-    {% if search_mode  %}
-    
-     <h2 style="padding-top:5%;"><a href="/products/">Back to Products</a></h2>
-  
+    {% if update_mode %}
     {% else %}
-      <h3 style="padding-top:1%;"> Enter Product Name</h3>
-      <input name="search" style="float:left" type='text' required=True></input>
-      <input type='submit' value="Search">  </input>
+
+    <div class="container1" style="width:89% ;height:14%;margin-left:5% ;margin-top:1%">
+      <div style="width:90% ;;margin-left:5% ;margin-top:1%;">
+      <form method='post' action="{% url 'search_product'%}">
+        {% csrf_token %}
+
+      {% if search_mode  %}
+      
+      <h2 style="padding-top:5%;"><a href="/products/">Back to Products</a></h2>
+    
+      {% else %}
+        <h3 style="padding-top:1%;"> Enter Product Name</h3>
+        <input name="search" type='text' required=True></input>
+        <input type='submit' value="Search">  </input>
+      {% endif %}
+      </form>
+      </div>
+    </div>
     {% endif %}
-    </form>
 
 
+    {% if search_mode %}
 
-  </div>
-  
-  </div>
-  {% endif %}
+    {% else %}
 
-
-  {% if search_mode %}
-
-  {% else %}
-  <div class="container" style="width:85% ;;margin-left:5% ;margin-top:3%;">
-  
+    <div class="container" style="width:85% ;;margin-left:5% ;margin-top:3%;">
       <form method='post'>
       {% csrf_token %}
 
@@ -65,7 +59,6 @@
       {{form}}
 
       <label for="status">Status:</label>
-
       <select name="status" id="status" required='True'>
         
           {% if update_mode  %}
@@ -85,81 +78,79 @@
       </form>
       <a name="reset"  href="/products/">{% if update_mode  %}Back to Products {% else %}Reset{% endif %}</a> 
 
-  </div>
-
-  {% endif %}
-  
-  {%if msg %}
-
-  <h4 style="text-align:left ; margin-top:10px; margin-left:25px ; color:red" > 
-      Sucess: </h4>
-  
-  <h5 style="text-align:left ; margin-left:25px " > 
-      Product  {% if update_mode %} Updated {% else %} Added {% endif %} Sucessfully </h5>
-  
-  {% endif %}
-
-  {%if error1 %}
-
-  <h4 style="text-align:left ; margin-top:10px; margin-left:25px ; color:red" > 
-      Warning! </h4>
-  
-  <h5 style="text-align:left ; margin-left:25px " > 
-      Select a Category </h5>
-  
-  {% endif %}
-    
-  {%if error %}
-
-  <h4 style="text-align:left ; margin-top:10px; margin-left:25px ; color:red" > 
-      Warning! </h4>
-  
-  <h5 style="text-align:left ; margin-left:25px " > 
-      Product allready exist try another </h5>
-  
-  {% endif %}
-
-  
-
-  
-  <div class="container1" style="width:90% ;height:30%;margin-left:5% ;margin-top:1%;overflow-x: hidden">
-
-    <table style="width:90%;margin:5%;">
-      <thead>
-        <tr >
-          <td style="width:5% ;background-color: aquamarine;"> P.ID </td>
-          <td style="width:5%;background-color: aquamarine;"> Count </td>
-          <td style="background-color: aquamarine;"> Product Name </td>
-          <td style="background-color: aquamarine;"> Perchase_price </td>
-          <td style="background-color: aquamarine;"> Sale_price </td>
-          <td style="background-color: aquamarine;"> Category </td>
-          <td style="background-color: aquamarine;"> Qty </td>
-          <td style="background-color: aquamarine;"> Status </td>
-          <td style="background-color: aquamarine;"> Delete </td>
-        </tr>
-      </thead>
-
-        {% for x in myproducts %}
-        <tr style="text-align:center ; margin-top:25px ;" >
-          <td style="width:5%"> <a href={%url 'show' id=x.id %}>{{ x.id }}</a> </td>
-          <td style="width:5%"><a href={%url 'show' id=x.id %}>{{ forloop.counter }}</a> </td>
-          <td> <a href={%url 'show' id=x.id %}>{{ x.productname }}</a> </td>
-          <td><a href={%url 'show' id=x.id %}>{{ x.product_perchase_price }}</a> </td>
-          <td><a href={%url 'show' id=x.id %}>{{ x.product_sale_price }}</a>  </td>
-          <td> <a href={%url 'show' id=x.id %}>{{ x.category }}</a> </td>
-          <td> <a href={%url 'show' id=x.id %}>{{ x.product_quantity }}</a> </td>
-          <td> <a href={%url 'show' id=x.id %}>{{ x.product_status }}</a> </td>
-          <td> <a onclick="return confirm('Are you sure you want to delete this?')" name="navlink" style=" " href={% url 'delete_pro' id=x.id %}>Delete </td>
-
-        </tr>
-        {% endfor %}
-     
-    </table>
-
     </div>
-  </div>
 
+    {% endif %}
+  
+      {%if msg %}
+
+      <h4 style="text-align:left ; margin-top:10px; margin-left:25px ; color:red" > 
+          Sucess: </h4>
+      
+      <h5 style="text-align:left ; margin-left:25px " > 
+          Product  {% if update_mode %} Updated {% else %} Added {% endif %} Sucessfully </h5>
+      
+      {% endif %}
+
+      {%if error1 %}
+
+      <h4 style="text-align:left ; margin-top:10px; margin-left:25px ; color:red" > 
+          Warning! </h4>
+      
+      <h5 style="text-align:left ; margin-left:25px " > 
+          Select a Category </h5>
+      
+      {% endif %}
+        
+      {%if error %}
+
+      <h4 style="text-align:left ; margin-top:10px; margin-left:25px ; color:red" > 
+          Warning! </h4>
+      
+      <h5 style="text-align:left ; margin-left:25px " > 
+          Product allready exist try another </h5>
+      
+      {% endif %}
+
+    <div class="container1" style="width:90% ;height:30%;margin-left:5% ;margin-top:1%;overflow-x: hidden">
+      <table style="width:90%;margin:5%;">
+        <thead>
+          <tr >
+            <td style="width:5% ;background-color: aquamarine;"> P.ID </td>
+            <td style="width:5%;background-color: aquamarine;"> Count </td>
+            <td style="background-color: aquamarine;"> Product Name </td>
+            <td style="background-color: aquamarine;"> Perchase_price </td>
+            <td style="background-color: aquamarine;"> Sale_price </td>
+            <td style="background-color: aquamarine;"> Category </td>
+            <td style="background-color: aquamarine;"> Qty </td>
+            <td style="background-color: aquamarine;"> Status </td>
+            <td style="background-color: aquamarine;"> Delete </td>
+          </tr>
+        </thead>
+
+          {% for x in myproducts %}
+          <tr style="text-align:center ; margin-top:25px ;" >
+            <td style="width:5%"> <a href={%url 'show' id=x.id %}>{{ x.id }}</a> </td>
+            <td style="width:5%"><a href={%url 'show' id=x.id %}>{{ forloop.counter }}</a> </td>
+            <td> <a href={%url 'show' id=x.id %}>{{ x.productname }}</a> </td>
+            <td><a href={%url 'show' id=x.id %}>{{ x.product_perchase_price }}</a> </td>
+            <td><a href={%url 'show' id=x.id %}>{{ x.product_sale_price }}</a>  </td>
+            <td> <a href={%url 'show' id=x.id %}>{{ x.category }}</a> </td>
+            <td> <a href={%url 'show' id=x.id %}>{{ x.product_quantity }}</a> </td>
+            <td> <a href={%url 'show' id=x.id %}>{{ x.product_status }}</a> </td>
+            <td> <a onclick="return confirm('Are you sure you want to delete this?')" name="navlink" style=" " href={% url 'delete_pro' id=x.id %}>Delete </td>
+
+          </tr>
+
+          {%empty%}
+           <h3 style="padding-left:5% ;" >No Data Found <h3>
+          {% endfor %}
+
+      </table>
+      </div>
+  </div>
 </div>
+<script src="/static/script.js">
 
 {% endblock %}
 

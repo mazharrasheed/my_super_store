@@ -5,12 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
-    <link href="/static/main.css?v=26" rel="stylesheet">
+    <link href="/static/main.css?v=27" rel="stylesheet">
 
   </head>
   <body>
 
-    <div class="navbar"  style="text-align:center;">
+    <div class="navbar1"  style="text-align:center;">
         
           <a class='sune' {% if request.path == "/" %}class="active"{% endif %} href="/main"> My Supper Store </a>
           <a {% if request.path == "/users/" %}class="active"{% endif %}href="/users">Users</a>

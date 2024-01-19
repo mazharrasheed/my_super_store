@@ -1,5 +1,7 @@
 from django.db import models
 from tinymce.models import HTMLField
+
+from autoslug import AutoSlugField
 # Create your models here.
 
 class Members(models.Model):
@@ -36,7 +38,7 @@ class Products(models.Model):
     product_quantity=models.CharField(max_length=255)
     product_status=models.CharField(max_length=255)
     is_deleted = models.BooleanField(default=False)
-
+    product_slug=AutoSlugField(populate_from="productname",unique=True,null=True,default=None)
     def __str__(self):
         return f"{self.productname}"
 
@@ -55,6 +57,7 @@ class Users(models.Model):
     username=models.CharField(max_length=255)
     password=models.CharField(max_length=20)
     is_deleted = models.BooleanField(default=False)
+    user_slug=AutoSlugField(populate_from="username",unique=True,null=True,default=None)
     def __str__(self):
         return f"{self.username}"
 

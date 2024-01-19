@@ -5,7 +5,7 @@ console.log("dfsdfdffd")
 
 //  console.log(pera)
 
-const URL= ""
+const URL= "jasondata"
 
 const factpara=document.querySelector("#fact")
 factpara.innerHTML="fgfgret6546566"
