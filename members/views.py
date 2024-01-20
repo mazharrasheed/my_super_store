@@ -1,13 +1,18 @@
-from django.shortcuts import render,redirect
-from django.http import HttpResponse , HttpResponseRedirect
-from django.template import loader
-from .models import Members,Users,Products,Category,Suppliers,Cart,Sales
-from .forms import Userform ,RegisterUser,LoginUser,Products_form,Category_form,Suppliers_form,Search_product_form,Customer_detail_form,Cust_bill_Products_form
-import time
 import os
 import tempfile
-from django.http import JsonResponse
+import time
+
 from django.core.paginator import Paginator
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.shortcuts import redirect, render
+from django.template import loader
+
+from .forms import (Category_form, Cust_bill_Products_form,
+                    Customer_detail_form, LoginUser, Products_form,
+                    RegisterUser, Search_product_form, Suppliers_form,
+                    Userform)
+from .models import Cart, Category, Members, Products, Sales, Suppliers, Users
+
 # Create your views here.
 
 def main(request):
@@ -23,7 +28,7 @@ def main(request):
 
 def users(request):
     myusers = Users.objects.filter(is_deleted=False).values()
-    paginator=Paginator(myusers,1)
+    paginator=Paginator(myusers,3)
     page_num=request.GET.get("page")
     myusersfinal=paginator.get_page(page_num)
     totalpages=myusersfinal.paginator.num_pages
