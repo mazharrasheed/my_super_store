@@ -58,6 +58,7 @@ class Users(models.Model):
     password=models.CharField(max_length=20)
     is_deleted = models.BooleanField(default=False)
     user_slug=AutoSlugField(populate_from="username",unique=True,null=True,default=None)
+    user_image=models.FileField(upload_to="userpics/",max_length=256,null=True,default=None)
     def __str__(self):
         return f"{self.username}"
 

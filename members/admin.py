@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Members,Employees,Products
+from .models import Members,Employees,Products,Users
 
 
 # Register your models here.
@@ -17,3 +17,8 @@ admin.site.register(Employees,EmployeeAdmin)
 
 
 admin.site.register(Products)
+
+
+class Useradmin(admin.ModelAdmin):
+  list_display = ("username", "password","user_image")
+admin.site.register(Users,Useradmin)

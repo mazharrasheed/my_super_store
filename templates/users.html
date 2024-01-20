@@ -24,8 +24,12 @@
 <div style="padding-left:20px;margin-left:5%">
   <h1 >User Details </h1>
     {% for x in myusers %}
-      <h1>Name: {{ x.username|title }}</h1>
+    <h1>Name: {{ x.username|title }}</h1>
+    {% if x.user_image != Null %}
+    <img src="/media/{{x.user_image}}">
+    {% endif %}
     {% endfor %}
+
   </div>
 {%else%}
 
