@@ -74,7 +74,7 @@ My Super Store
           {% endif %}
         </select>
 
-        <input type="submit" name='saveproduct' style="" {% if update_mode %}value="Update Product" {% else %}
+        <input type="submit" name='saveproduct' {% if update_mode %}value="Update Product" {% else %}
           value="Save Product" {% endif %}>
       </form>
       <a name="reset" href="/products/">{% if update_mode %}Back to Products {% else %}Reset{% endif %}</a>
@@ -139,8 +139,7 @@ My Super Store
           <td> <a href={%url 'show' id=x.id %}>{{ x.category }}</a> </td>
           <td> <a href={%url 'show' id=x.id %}>{{ x.product_quantity }}</a> </td>
           <td> <a href={%url 'show' id=x.id %}>{{ x.product_status }}</a> </td>
-          <td> <a onclick="return confirm('Are you sure you want to delete this?')" name="navlink" style=" " href={%
-              url 'delete_pro' id=x.id %}>Delete </td>
+          <td> <a onclick="return confirm('Are you sure you want to delete this?')" name="navlink" href={%url 'delete_pro' id=x.id %}>Delete </td>
 
         </tr>
 
