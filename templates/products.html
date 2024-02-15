@@ -31,8 +31,8 @@ My Super Store
 
           {% else %}
           <h3 style="padding-top:1%;"> Enter Product Name</h3>
-          <input name="search" type='text' required=True></input>
-          <input type='submit' value="Search"> </input>
+          <input name="search" type='text' required=True>
+          <input type='submit' value="Search">
           {% endif %}
         </form>
       </div>
@@ -52,8 +52,7 @@ My Super Store
         <select name="category_name" id="category_name" required>
           <option value="">Select</option>
           {% for x in mycategory %}
-          <option value="{{ x.category_name }}" {% if x.category_name==value1%} selected="selected" {% endif %}>{{
-            x.category_name }}</option>
+          <option value="{{ x.category_name }}" {% if x.category_name == value1%} selected="selected" {% endif %}>{{x.category_name }}</option>
           {% endfor %}
         </select>
 
@@ -153,6 +152,6 @@ My Super Store
     </div>
   </div>
 </div>
-<script src="/static/script.js">
+<script src="/static/script.js"></script>
 
-  {% endblock %}
+  {% endblock content %}

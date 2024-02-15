@@ -194,7 +194,7 @@ def show(request,id):
             pass
     mycategory = Category.objects.filter(is_deleted=False).values()
     mydata = Products.objects.filter(id=id, is_deleted=False).values()
-    print(mydata)
+
     for x in mydata:
       value1=x['category']
       value2=x['productname']
